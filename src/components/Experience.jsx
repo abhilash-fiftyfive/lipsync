@@ -15,9 +15,7 @@ export const Experience = () => {
   return (
     <>
       <OrbitControls />
-      <Avatar position={[1, -3, 5.5]} scale={2} />
-      {/* <Sensei position={[-1, -3, 5.5]} scale={2} /> */}
-      {/* <NewAvatar /> */}
+      <Avatar position={[1, -2.5, 3]} rotation={[89.3, 0, 0]} scale={2} />
       <Environment preset="forest" />
       <mesh>
         <planeGeometry args={[viewport.width, viewport.height]} />

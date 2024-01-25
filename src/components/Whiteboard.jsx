@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { syncAudioWithTextContext } from "../App";
 import axios from "axios";
+import MainPageLayout from "../MainPageLayout";
 
 const Whiteboard = () => {
   const [message, setMessage] = useState("");
@@ -135,6 +136,7 @@ const Whiteboard = () => {
         display: "flex",
         alignItems: "center",
         overflowY: "scroll",
+        justifyContent: "center",
       }}
       className="hide-scrollbar"
     >
@@ -146,6 +148,7 @@ const Whiteboard = () => {
         Your browser does not support the audio element.
       </audio> */}
       <p>{text}</p>
+      <MainPageLayout />
     </div>
   );
 };

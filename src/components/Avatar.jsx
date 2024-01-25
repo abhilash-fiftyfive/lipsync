@@ -46,94 +46,95 @@ export function Avatar(props) {
   const audio = useMemo(() => new Audio(`/audios/${script}.mp3`), [script]);
   const jsonFile = useLoader(THREE.FileLoader, `audios/${script}.json`);
   const lipsync = JSON.parse(jsonFile);
+  console.log("props", props);
 
-  useFrame(() => {
-    const currentAudioTime = audio.currentTime;
-    if (audio.paused || audio.ended) {
-      setAnimation("Idle");
-      return;
-    }
+  // useFrame(() => {
+  //   const currentAudioTime = audio.currentTime;
+  //   if (audio.paused || audio.ended) {
+  //     setAnimation("Idle");
+  //     return;
+  //   }
 
-    Object.values(corresponding).forEach((value) => {
-      if (!smoothMorphTarget) {
-        nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[value]
-        ] = 0;
-        nodes.Wolf3D_Teeth.morphTargetInfluences[
-          nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-        ] = 0;
-      } else {
-        nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[value]
-        ] = THREE.MathUtils.lerp(
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[value]
-          ],
-          0,
-          morphTargetSmoothing
-        );
+  //   Object.values(corresponding).forEach((value) => {
+  //     if (!smoothMorphTarget) {
+  //       nodes.Wolf3D_Head.morphTargetInfluences[
+  //         nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //       ] = 0;
+  //       nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //         nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //       ] = 0;
+  //     } else {
+  //       nodes.Wolf3D_Head.morphTargetInfluences[
+  //         nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //       ] = THREE.MathUtils.lerp(
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //         ],
+  //         0,
+  //         morphTargetSmoothing
+  //       );
 
-        nodes.Wolf3D_Teeth.morphTargetInfluences[
-          nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-        ] = THREE.MathUtils.lerp(
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-          ],
-          0,
-          morphTargetSmoothing
-        );
-      }
-    });
+  //       nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //         nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //       ] = THREE.MathUtils.lerp(
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //         ],
+  //         0,
+  //         morphTargetSmoothing
+  //       );
+  //     }
+  //   });
 
-    for (let i = 0; i < lipsync.mouthCues.length; i++) {
-      const mouthCue = lipsync.mouthCues[i];
-      if (
-        currentAudioTime >= mouthCue.start &&
-        currentAudioTime <= mouthCue.end
-      ) {
-        if (!smoothMorphTarget) {
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = 1;
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = 1;
-        } else {
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = THREE.MathUtils.lerp(
-            nodes.Wolf3D_Head.morphTargetInfluences[
-              nodes.Wolf3D_Head.morphTargetDictionary[
-                corresponding[mouthCue.value]
-              ]
-            ],
-            1,
-            morphTargetSmoothing
-          );
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = THREE.MathUtils.lerp(
-            nodes.Wolf3D_Teeth.morphTargetInfluences[
-              nodes.Wolf3D_Teeth.morphTargetDictionary[
-                corresponding[mouthCue.value]
-              ]
-            ],
-            1,
-            morphTargetSmoothing
-          );
-        }
-        break;
-      }
-    }
-  });
+  //   for (let i = 0; i < lipsync.mouthCues.length; i++) {
+  //     const mouthCue = lipsync.mouthCues[i];
+  //     if (
+  //       currentAudioTime >= mouthCue.start &&
+  //       currentAudioTime <= mouthCue.end
+  //     ) {
+  //       if (!smoothMorphTarget) {
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = 1;
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = 1;
+  //       } else {
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = THREE.MathUtils.lerp(
+  //           nodes.Wolf3D_Head.morphTargetInfluences[
+  //             nodes.Wolf3D_Head.morphTargetDictionary[
+  //               corresponding[mouthCue.value]
+  //             ]
+  //           ],
+  //           1,
+  //           morphTargetSmoothing
+  //         );
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = THREE.MathUtils.lerp(
+  //           nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //             nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //               corresponding[mouthCue.value]
+  //             ]
+  //           ],
+  //           1,
+  //           morphTargetSmoothing
+  //         );
+  //       }
+  //       break;
+  //     }
+  //   }
+  // });
 
   useEffect(() => {
     nodes.Wolf3D_Head.morphTargetInfluences[
@@ -145,15 +146,15 @@ export function Avatar(props) {
     if (playAudio) {
       audio.play();
       if (script === "welcome") {
-        setAnimation("Greeting");
+        setAnimation(animations[0].name);
       } else if (script === "pizzas") {
         setAnimation("Angry");
       } else if (script === "chatGPT") {
-        setAnimation("Greeting");
+        setAnimation(animations[3].name);
       } else if (script === "react") {
-        setAnimation("Greeting");
+        setAnimation(animations[2].name);
       } else if (script === "lorem") {
-        setAnimation("Greeting");
+        setAnimation(animations[1].name);
       }
     } else {
       setAnimation("Idle");
@@ -162,37 +163,121 @@ export function Avatar(props) {
   }, [playAudio, script]);
 
   const { nodes, materials } = useGLTF("/models/sensei.glb");
-  const { animations: idleAnimation } = useFBX("/animations/Idle.fbx");
-  const { animations: angryAnimation } = useFBX(
-    "/animations/Angry Gesture.fbx"
-  );
-  const { animations: greetingAnimation } = useFBX(
-    "/animations/Standing Greeting.fbx"
-  );
-
-  idleAnimation[0].name = "Idle";
-  angryAnimation[0].name = "Angry";
-  greetingAnimation[0].name = "Greeting";
-
-  const [animation, setAnimation] = useState("Idle");
+  const { animations } = useGLTF("/models/aichatboy_animationsv1.glb");
+  console.log("animations", animations);
 
   const group = useRef();
-  const { actions } = useAnimations(
-    [idleAnimation[0], angryAnimation[0], greetingAnimation[0]],
-    group
+  const { actions, mixer } = useAnimations(animations, group);
+  const [animation, setAnimation] = useState(
+    animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name // Check if Idle animation exists otherwise use first animation
   );
-
   useEffect(() => {
-    actions[animation].reset().fadeIn(0.5).play();
+    actions[animation]
+      .reset()
+      .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
+      .play();
     return () => actions[animation].fadeOut(0.5);
   }, [animation]);
+  // const { animations: idleAnimation } = useFBX("/animations/Idle.fbx");
+  // const { animations: angryAnimation } = useFBX(
+  //   "/animations/Angry Gesture.fbx"
+  // );
+  // const { animations: greetingAnimation } = useFBX(
+  //   "/animations/Standing Greeting.fbx"
+  // );
+  // const { animations: walkBackWardAnimation } = useFBX(
+  //   "/animations/walkbackward.fbx"
+  // );
+  // const { animations: pistolWalkAnimation } = useFBX(
+  //   "/animations/PistolWalk.fbx"
+  // );
+  // const { animations: gunWalkBackAnimation } = useFBX(
+  //   "/animations/Gun_walkbck.fbx"
+  // );
+  // const { animations: pettingAnimalAnimation } = useFBX(
+  //   "/animations/Petting Animal.fbx"
+  // );
+  // const { animations: leftTurnAnimation } = useFBX("/animations/Left Turn.fbx");
+  // const { animations: leftTurnYAnimation } = useFBX(
+  //   "/animations/leftTurnY.fbx"
+  // );
+  // const { animations: leftTurn90Animation } = useFBX(
+  //   "/animations/leftTurn90_0_0.fbx"
+  // );
+  // const { animations: walkingAnimation } = useFBX("/animations/walking.fbx");
+
+  // idleAnimation[0].name = "Idle";
+  // angryAnimation[0].name = "Angry";
+  // greetingAnimation[0].name = "Greeting";
+  // walkBackWardAnimation[0].name = "WalkBackward";
+  // pistolWalkAnimation[0].name = "PistolWalk";
+  // pettingAnimalAnimation[0].name = "PettingAnimal";
+  // leftTurnAnimation[0].name = "leftTurn";
+  // leftTurnYAnimation[0].name = "leftTurnY";
+  // gunWalkBackAnimation[0].name = "gunWalkBack";
+  // leftTurn90Animation[0].name = "leftTurn90";
+  // walkingAnimation[0].name = "Walking";
+
+  // const [animation, setAnimation] = useState("Idle");
+
+  // const group = useRef();
+  // const { actions } = useAnimations(
+  //   [
+  //     idleAnimation[0],
+  //     angryAnimation[0],
+  //     greetingAnimation[0],
+  //     walkBackWardAnimation[0],
+  //     pistolWalkAnimation[0],
+  //     pettingAnimalAnimation[0],
+  //     leftTurnAnimation[0],
+  //     leftTurnYAnimation[0],
+  //     gunWalkBackAnimation[0],
+  //     // leftTurn90Animation[0],
+  //   ],
+  //   group
+  // );
+
+  // useEffect(() => {
+  //   // Set initial position and scale for each mesh
+  //   group.current.position.set(1, -3, 5.5);
+  //   group.current.scale.set(2, 2, 2);
+  //   const meshes = [
+  //     nodes.EyeLeft,
+  //     nodes.EyeRight,
+  //     nodes.Wolf3D_Head,
+  //     nodes.Wolf3D_Teeth,
+  //     nodes.Wolf3D_Hair,
+  //     nodes.Wolf3D_Glasses,
+  //     nodes.Wolf3D_Outfit_Top,
+  //     nodes.Wolf3D_Outfit_Bottom,
+  //     nodes.Wolf3D_Outfit_Footwear,
+  //     nodes.Wolf3D_Body,
+  //   ];
+
+  //   meshes.forEach((mesh) => {
+  //     mesh.position.set(1, -3, 5.5); // Set the desired initial position
+  //     mesh.scale.set(2, 0, 0); // Set the desired initial scale
+  //   });
+
+  //   // ... (rest of the code)
+  // }, []);
+
+  // useEffect(() => {
+  //   actions[animation]?.reset()?.fadeIn(0.5)?.play();
+  //   console.log("animation", animation, "actions", actions[animation]);
+  //   group.current.position.set(1, -3, 5.5);
+  //   return () => actions[animation].fadeOut(0.5);
+  // }, [animation]);
 
   // CODE ADDED AFTER THE TUTORIAL (but learnt in the portfolio tutorial ♥️)
-  useFrame((state) => {
-    if (headFollow) {
-      group.current.getObjectByName("Head").lookAt(state.camera.position);
-    }
-  });
+  // useFrame((state) => {
+  //   if (headFollow) {
+  //     group.current.getObjectByName("Head").lookAt(state.camera.position);
+  //   }
+  // });
+  useEffect(() => {
+    group.current?.children?.map((mesh) => console.log(mesh.name));
+  }, []);
 
   return (
     <group {...props} dispose={null} ref={group}>

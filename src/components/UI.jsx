@@ -1,27 +1,22 @@
-import { useRef } from "react";
-import { useChat } from "../hooks/useChat";
+import { useRef, useState } from "react";
+import useCourses from "./hooks/useCourses";
 
-export const UI = ({ hidden, ...props }) => {
+export const UI = () => {
   const inputref = useRef();
-  // const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
-
+  const { coursesList, isLoading, isError, isSuccess, setCourseId } =
+    useCourses();
+  console.log(coursesList);
   const sendMessage = () => {
-    const text = input.current.value;
-    if (!loading && !message) {
-      chat(text);
-      input.current.value = "";
-    }
+    const text = inputref.current.value;
+    setCourseId(Number(text));
   };
-  if (hidden) {
-    return null;
-  }
 
   return (
     <>
-      <div>
+      <div className="absolute z-30 bottom-12 left-8 flex gap-4">
         <input
           className="w-full placeholder:text-gray-800 placeholder-italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
-          placeholder="Type a message..."
+          placeholder="Enter your course id (eg. 1,2,3)..."
           ref={inputref}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -29,7 +24,12 @@ export const UI = ({ hidden, ...props }) => {
             }
           }}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button
+          onClick={sendMessage}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        >
+          Send
+        </button>
       </div>
     </>
   );
