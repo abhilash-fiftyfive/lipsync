@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { syncAudioWithTextContext } from "../App";
 import axios from "axios";
-import MainPageLayout from "../MainPageLayout";
+// import MainPageLayout from "../MainPageLayout";
+import ChatLayout from "../components/chats";
 
 const Whiteboard = () => {
   const [message, setMessage] = useState("");
@@ -148,7 +149,8 @@ const Whiteboard = () => {
         Your browser does not support the audio element.
       </audio> */}
       <p>{text}</p>
-      <MainPageLayout />
+      {/* <MainPageLayout /> */}
+      <ChatLayout />
     </div>
   );
 };

@@ -47,7 +47,7 @@ const MainPageLayout = () => {
               style={{
                 overflowY: "auto",
                 height: "100%",
-                backgroundColor: lightBlue[50],
+                // backgroundColor: lightBlue[50],
               }}
             >
               <Outlet />

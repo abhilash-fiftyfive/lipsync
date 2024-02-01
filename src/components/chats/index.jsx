@@ -3,8 +3,9 @@ import { useEffect, useRef } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { UserType } from "../../hooks/useChats";
-import useCourseConversation from "../../hooks/useCourseConversation";
+import useCourseConversation from "../hooks/useCourseConversation";
+import { chatContext } from "../../App";
+import _ from "lodash";
 
 const ChatLayout = () => {
   const {
@@ -63,6 +64,7 @@ const ChatLayout = () => {
 
     const connectWebSocket = () => {
       ws = new WebSocket(url);
+      console.log("inside ws");
 
       ws.onopen = () => {
         console.log("WebSocket connected");
@@ -76,7 +78,7 @@ const ChatLayout = () => {
             ...prevMessages,
             {
               message: message.answer,
-              createdBy: UserType.BOT,
+              createdBy: "BOT",
               createdAt: new Date().toISOString(),
             },
           ]);
@@ -101,7 +103,7 @@ const ChatLayout = () => {
         ws.send("keep-alive");
       }
     };
-
+    console.log("isIdValid....", isIdValid, authorId, sessionId);
     if (isIdValid) {
       connectWebSocket();
       interval = setInterval(sendKeepAlive, 10000);
@@ -118,6 +120,20 @@ const ChatLayout = () => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
+  console.log("list", messageList);
+
+  const getLastBotMessage = (messageList) => {
+    const lastBotMessage = messageList.reduce((acc, message) => {
+      if (message.createdBy === "BOT") {
+        return message;
+      }
+      return acc;
+    }, null);
+
+    return lastBotMessage;
+  };
+  const lastEle = getLastBotMessage(messageList);
+  console.log("lastEle", lastEle.message);
 
   return (
     <div
@@ -128,7 +144,12 @@ const ChatLayout = () => {
         height: "100vh",
       }}
     >
-      <div style={{ height: "100vh", overflow: "auto" }}>
+      <div
+        style={{
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
         {messageList.map((list, index) => (
           <div
             key={index}
@@ -137,6 +158,9 @@ const ChatLayout = () => {
               flexFlow: "row",
               justifyContent: list.createdBy === "BOT" ? "left" : "flex-end",
               alignItems: "center",
+              position: "absolute",
+              top: "275px",
+              left: "90px",
             }}
             ref={messagesEndRef}
           >

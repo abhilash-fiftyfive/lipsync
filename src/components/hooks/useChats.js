@@ -5,7 +5,7 @@ const useChats = () => {
   const [messageList, setMessageList] = useState([
     {
       message: "Hey User! Please tell me your ID?",
-      createdBy: UserType.BOT,
+      createdBy: "BOT",
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -15,10 +15,13 @@ const useChats = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [sessionId] = useState(() => new Date().toJSON());
   const { coursesList, isLoading, isError, isSuccess } = useCourses({
-    id: authorId ?? "",
+    id: authorId,
   });
 
+  console.log("courseList", coursesList);
+
   useEffect(() => {
+    console.log("Abhi", isLoading, isError, coursesList?.length);
     if (!isLoading && !isError && coursesList?.length >= 0) {
       setIsIdValid(true);
       return;
@@ -28,7 +31,7 @@ const useChats = () => {
         ...prev,
         {
           message: "OOPS 😒, your Id is wrong, Please re-enter your Id",
-          createdBy: UserType.BOT,
+          createdBy: "BOT",
           createdAt: new Date().toISOString(),
         },
       ]);

@@ -1,6 +1,5 @@
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { chatContext } from "../MainPageLayout";
+import { chatContext } from "../../App";
 
 // export enum UserType {
 //   USER = "USER",
@@ -11,8 +10,8 @@ let conversationTimeout;
 
 const useCourseConversation = () => {
   const { messageList, setMessageList, authorId, sessionId } = chatContext();
-  const navigate = useNavigate();
-  const BASE_URL = "http://127.0.0.1:8000";
+  // const navigate = useNavigate();
+  const BASE_URL = "https://cait-sdgywdtvka-ew.a.run.app/";
 
   const conversationData = async (uuid) => {
     try {
@@ -69,27 +68,27 @@ const useCourseConversation = () => {
     }
   };
 
-  const { mutateAsync: getLeapfrogCourseData } = useMutation(
-    async (url) => {
-      const res = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: "Basic SGFyc2g6OVM0ZFF3eTlHY2dIam9lYXVqSWpuVnhP",
-        },
-      });
-      return res.json();
-    },
-    {
-      onSuccess: (res) => {
-        navigate(`/${res.id}`);
-      },
-    }
-  );
+  // const { mutateAsync: getLeapfrogCourseData } = useMutation(
+  //   async (url) => {
+  //     const res = await fetch(url, {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: "Basic SGFyc2g6OVM0ZFF3eTlHY2dIam9lYXVqSWpuVnhP",
+  //       },
+  //     });
+  //     return res.json();
+  //   },
+  //   {
+  //     onSuccess: (res) => {
+  //       navigate(`/${res.id}`);
+  //     },
+  //   }
+  // );
 
   const { mutateAsync: start_conversation_mutation } = useMutation(
     [],
     async ({ message, called }) => {
-      console.log(called)
+      console.log(called);
       const res = await fetch(
         `${BASE_URL}/start_conversation?student_ID=${authorId}&session_ID=${sessionId}&user_message_no=${
           messageList.length + 1

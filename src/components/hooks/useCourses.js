@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { useQuery } from "react-query";
 
-const useCourses = () => {
-  const [id, setId] = useState();
+const useCourses = ({ id }) => {
   const {
     data: coursesList,
     isLoading,
@@ -30,16 +28,12 @@ const useCourses = () => {
       },
     }
   );
-  const setCourseId = (newId) => {
-    setId(newId);
-  };
 
   return {
     coursesList,
     isLoading,
     isError,
     isSuccess,
-    setCourseId,
   };
 };
 
